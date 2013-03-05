@@ -1,11 +1,11 @@
 %h1
   Hello
-  = @user.email
+  = current_user.email
 
-%h2 Your friends are:
+= link_to 'logout', destroy_user_session_path, method: :delete, class: :logout
 
-- @friends.each do |friend|
-  = friend
-  %br
-
-= link_to 'logout', destroy_user_session_path, method: :delete
+%div.friends
+  %h3 Your friends are:
+  - @friends.each do |friend|
+    %div.friend
+      = friend
