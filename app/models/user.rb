@@ -6,17 +6,24 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :facebook_id
   # attr_accessible :title, :body
 
   def self.by_facebook auth
-    unless user = self.find_by_facebook_id(auth.id.to_s)
-      user_attr = {
-        email: auth.info.email.to_s,
-        password: Devise.friendly_token[0,20],
-        facebook_id: auth.id
-      }
-      user = self.create! user_attr
+    info = auth.extra.raw_info
+    unless user = self.find_by_facebook_id(info.id)
+      user = self.create! attributes_from(info)
     end
+    return user
+  end
+
+  protected
+
+  def attributes_from omniauth
+    {
+      email: omniauth.email,
+      password: Devise.friendly_token[0,20],
+      facebook_id: omniauth.id
+    }
   end
 end
