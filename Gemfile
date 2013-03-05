@@ -8,6 +8,7 @@ gem 'rails', '3.2.9'
 group :development, :test do
   gem 'sqlite3'
   gem 'debugger'
+  gem 'heroku'
 end
 
 group :production do
@@ -31,6 +32,7 @@ gem 'devise'
 gem 'omniauth-facebook'
 gem 'haml-rails'
 gem 'koala'
+gem 'bootstrap-sass'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
