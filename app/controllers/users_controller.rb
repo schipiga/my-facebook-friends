@@ -3,5 +3,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find params[:id]
+    @friends = @user.facebook_friends
   end
 end
