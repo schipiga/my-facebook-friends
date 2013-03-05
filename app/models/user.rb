@@ -10,10 +10,10 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   def self.by_facebook auth
-    unless user = self.find_by_facebook_id auth.id.to_s
+    unless user = self.find_by_facebook_id(auth.id.to_s)
       user_attr = {
-        email: auth.info.email.to_s
-        password: Devise.friendly_token[0,20]
+        email: auth.info.email.to_s,
+        password: Devise.friendly_token[0,20],
         facebook_id: auth.id
       }
       user = self.create! user_attr
