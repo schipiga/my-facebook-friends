@@ -1,9 +1,11 @@
-%h1
+%h2
   Hello
-  = @user.email
+  = current_user.email
 
-- @friends.each do |friend|
-  = friend
-  %br
+= link_to 'logout', destroy_user_session_path, method: :delete, class: 'btn'
 
-= link_to 'logout', destroy_user_session_path, method: :delete
+%div.friends
+  %h3 Your friends are:
+  - @friends.each do |friend|
+    %div.friend
+      = friend
