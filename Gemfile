@@ -11,6 +11,15 @@ group :development, :test do
   gem 'heroku'
 end
 
+group :test do
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'factory_girl'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
+end
+
 group :production do
   gem 'pg'
 end
