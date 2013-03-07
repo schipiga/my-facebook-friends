@@ -1,17 +1,26 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable
-  devise :database_authenticatable, :registerable, :omniauthable,
-         :recoverable, :rememberable, :trackable, :validatable
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :facebook_id, :facebook_credentials_token
-  # attr_accessible :title, :body
+  devise :database_authenticatable,
+         :registerable,
+         :omniauthable,
+         :recoverable,
+         :rememberable,
+         :trackable,
+         :validatable
+
+  attr_accessible :email,
+                  :password,
+                  :password_confirmation,
+                  :remember_me,
+                  :facebook_id,
+                  :facebook_credentials_token
+
+  validates_presence_of :facebook_id,
+                        :facebook_credentials_token
 
   def self.by_facebook auth
-    unless user = self.find_by_facebook_id(auth.uid)
-      user = self.create! attributes_from(auth)
+    unless user = self.find_by_facebook_id(auth[:uid])
+      user = self.create attributes_from(auth)
     end
     return user
   end
@@ -19,7 +28,7 @@ class User < ActiveRecord::Base
   def facebook_friends
     graph = Koala::Facebook::API.new facebook_credentials_token
     fb_friends = graph.get_connections 'me', 'friends'
-    fb_friends.map { |friend| friend["name"] }
+    fb_friends.map { |friend| friend['name'] }
   end
 
   protected
